@@ -31,6 +31,7 @@ Table Product {
   isDisabled Boolean [not null, default: false]
   likedBy User [not null]
   createdBy User [not null]
+  createdById String [not null]
   Order Order [not null]
   Cart Cart [not null]
 }
@@ -71,17 +72,12 @@ Table LikedProducts {
   likedbyId String [ref: > User.id]
 }
 
-Table createdProducts {
-  createdproductsId String [ref: > Product.id]
-  createdbyId String [ref: > User.id]
-}
-
-Table OrderToProduct {
+Table ProductOrders {
   orderId String [ref: > Order.id]
   productsId String [ref: > Product.id]
 }
 
-Table CartToProduct {
+Table ProductCarts {
   cartId String [ref: > Cart.id]
   productsId String [ref: > Product.id]
 }
@@ -98,6 +94,8 @@ Enum OrderStatus {
 }
 
 Ref: Product.categoryId > Category.id
+
+Ref: Product.createdById > User.id
 
 Ref: Image.productId > Product.id
 
