@@ -9,8 +9,8 @@ const config: Config = {
   },
   swagger: {
     enabled: true,
-    title: 'Nestjs FTW',
-    description: 'The nestjs API description',
+    title: 'Tipicos Delivery',
+    description: 'Tipicos Salvadorenos',
     version: '1.5',
     path: 'api',
   },
