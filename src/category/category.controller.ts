@@ -8,7 +8,7 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
-  NotImplementedException,
+  NotFoundException,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
@@ -28,7 +28,8 @@ export class CategoryController {
   async create(
     @Body() createCategoryDto: CreateCategoryDto,
   ): Promise<CategoryResponseDto> {
-    throw new NotImplementedException('Method is not implemented yet');
+    const category = await this.categoryService.create(createCategoryDto);
+    return { id: category.id, name: category.name };
   }
 
   @Get()
@@ -38,7 +39,11 @@ export class CategoryController {
     description: 'Categories retrieved successfully',
   })
   async findAll(): Promise<CategoryResponseDto[]> {
-    throw new NotImplementedException('Method is not implemented yet');
+    const categories = await this.categoryService.findAll();
+    return categories.map((category) => ({
+      id: category.id,
+      name: category.name,
+    }));
   }
 
   @Get(':id')
@@ -46,7 +51,11 @@ export class CategoryController {
   @ApiResponse({ status: 200, description: 'Category retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Category not found' })
   async findOne(@Param('id') id: string): Promise<CategoryResponseDto> {
-    throw new NotImplementedException('Method is not implemented yet');
+    const category = await this.categoryService.findOne(id);
+    if (!category) {
+      throw new NotFoundException(`Category with id ${id} not found`);
+    }
+    return { id: category.id, name: category.name };
   }
 
   @Patch(':id')
@@ -57,7 +66,8 @@ export class CategoryController {
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ): Promise<CategoryResponseDto> {
-    throw new NotImplementedException('Method is not implemented yet');
+    const category = await this.categoryService.update(id, updateCategoryDto);
+    return { id: category.id, name: category.name };
   }
 
   @Delete(':id')
@@ -66,6 +76,6 @@ export class CategoryController {
   @ApiResponse({ status: 204, description: 'Category deleted successfully' })
   @ApiResponse({ status: 404, description: 'Category not found' })
   async remove(@Param('id') id: string): Promise<void> {
-    throw new NotImplementedException('Method is not implemented yet');
+    await this.categoryService.remove(id);
   }
 }
