@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import config from './common/configs/config';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GqlConfigService } from './gql-config.service';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { GqlConfigService } from './gql-config.service';
 
     AuthModule,
     UsersModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
