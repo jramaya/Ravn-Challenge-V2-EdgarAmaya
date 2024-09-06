@@ -33,12 +33,12 @@ export class AuthService {
         data: {
           ...payload,
           password: hashedPassword,
-          role: 'CLIENT',
         },
       });
 
       return this.generateTokens({
         userId: user.id,
+        role: user.role,
       });
     } catch (e) {
       if (
@@ -69,6 +69,7 @@ export class AuthService {
 
     return this.generateTokens({
       userId: user.id,
+      role: user.role,
     });
   }
 
@@ -81,7 +82,7 @@ export class AuthService {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
-  generateTokens(payload: { userId: string }): Token {
+  generateTokens(payload: { userId: string; role: string }): Token {
     return {
       accessToken: this.generateAccessToken(payload),
       refreshToken: this.generateRefreshToken(payload),
@@ -102,12 +103,13 @@ export class AuthService {
 
   refreshToken(token: string) {
     try {
-      const { userId } = this.jwtService.verify(token, {
+      const { userId, role } = this.jwtService.verify(token, {
         secret: this.configService.get('JWT_REFRESH_SECRET'),
       });
 
       return this.generateTokens({
         userId,
+        role,
       });
     } catch (e) {
       throw new UnauthorizedException();

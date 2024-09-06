@@ -16,11 +16,11 @@ import { User } from './models/user.model';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth';
 
 @ApiTags('Users')
-@ApiBearerAuth()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get()
   @ApiOkResponse({ description: 'List all users', type: [User] })
@@ -28,6 +28,7 @@ export class UsersController {
     throw new NotImplementedException('not implemented');
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   @ApiOkResponse({ description: 'User information', type: User })
