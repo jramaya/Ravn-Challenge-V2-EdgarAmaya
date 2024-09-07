@@ -7,6 +7,7 @@ import {
   Patch,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -14,6 +15,7 @@ import {
   ApiOkResponse,
   ApiNotFoundResponse,
   ApiCreatedResponse,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -21,6 +23,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './model/product.model';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { Public } from '../common/decorators/is-public.decorator';
+import { ProductPagination } from './model/product-pagination.model';
 
 @ApiTags('Products')
 @UseGuards(JwtGuard)
@@ -49,9 +52,26 @@ export class ProductsController {
   @ApiBearerAuth()
   @Public()
   @Get()
-  @ApiOkResponse({ description: 'List of products', type: [Product] })
-  async listProducts(): Promise<any[]> {
-    return this.productsService.listProducts();
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    required: false,
+    description: 'Page number',
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    type: Number,
+    required: false,
+    description: 'Number of items per page',
+    example: 10,
+  })
+  @ApiOkResponse({ description: 'List of products', type: ProductPagination })
+  async listProducts(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+  ): Promise<ProductPagination> {
+    return this.productsService.listProducts(page, limit);
   }
 
   @ApiBearerAuth()

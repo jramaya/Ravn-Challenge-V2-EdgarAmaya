@@ -50,6 +50,19 @@ type Mutation {
   updateUser(data: UpdateUserInput!): User!
 }
 
+type Product {
+  category: Category
+  createdAt: DateTime!
+  description: String
+  id: String!
+  images: [Image!]
+  isDisabled: Boolean!
+  name: String!
+  price: Int!
+  stock: Int!
+  updatedAt: DateTime!
+}
+
 type Query {
   hello(name: String!): String!
   helloWorld: String!

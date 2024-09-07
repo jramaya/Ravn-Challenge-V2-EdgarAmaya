@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductPagination } from './model/product-pagination.model';
 
 @Injectable()
 export class ProductsService {
@@ -80,11 +81,25 @@ export class ProductsService {
     });
   }
 
-  async listProducts() {
-    return this.prisma.product.findMany({
+  async listProducts(page: number, limit: number): Promise<ProductPagination> {
+    const offset: number = (page - 1) * limit;
+    const products = await this.prisma.product.findMany({
       where: { isDisabled: false },
-      include: { category: true, images: true }, // Include related models
+      include: { category: true, images: true },
+      skip: offset,
+      take: parseInt(limit.toString()),
     });
+
+    const totalCount = await this.prisma.product.count({
+      where: { isDisabled: false },
+    });
+
+    return {
+      products,
+      totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+    };
   }
 
   async getProductDetails(id: string) {
