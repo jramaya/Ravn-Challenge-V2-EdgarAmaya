@@ -9,7 +9,8 @@ import { ValidateNested } from 'class-validator';
 export class UpdateProductDto {
   @ApiPropertyOptional({
     example: 'Pupusa de Chicharrón',
-    description: 'El nombre actualizado del producto, por ejemplo, un plato típico salvadoreño.',
+    description:
+      'El nombre actualizado del producto, por ejemplo, un plato típico salvadoreño.',
   })
   @Field({ nullable: true })
   @IsOptional()
@@ -17,7 +18,8 @@ export class UpdateProductDto {
   name?: string;
 
   @ApiPropertyOptional({
-    example: 'Un plato típico salvadoreño hecho con tortilla de maíz rellena de chicharrón.',
+    example:
+      'Un plato típico salvadoreño hecho con tortilla de maíz rellena de chicharrón.',
     description: 'Una descripción actualizada del producto.',
   })
   @Field({ nullable: true })
@@ -45,7 +47,8 @@ export class UpdateProductDto {
 
   @ApiPropertyOptional({
     type: [ImageDto],
-    description: 'Un array actualizado de URLs de imágenes del producto (opcional).',
+    description:
+      'Un array actualizado de URLs de imágenes del producto (opcional).',
     example: [
       { url: 'https://example.com/pupusa-chicharron.jpg' },
       { url: 'https://example.com/pupusa-mixta.jpg' },

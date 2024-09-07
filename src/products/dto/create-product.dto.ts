@@ -9,14 +9,16 @@ import { ValidateNested } from 'class-validator';
 export class CreateProductDto {
   @ApiProperty({
     example: 'Pupusa de Queso',
-    description: 'El nombre del producto, por ejemplo, un plato típico salvadoreño.',
+    description:
+      'El nombre del producto, por ejemplo, un plato típico salvadoreño.',
   })
   @Field()
   @IsString()
   name: string;
 
   @ApiPropertyOptional({
-    example: 'Un delicioso plato salvadoreño hecho de tortilla de maíz rellena de queso.',
+    example:
+      'Un delicioso plato salvadoreño hecho de tortilla de maíz rellena de queso.',
     description: 'Una breve descripción del producto.',
   })
   @Field({ nullable: true })
@@ -42,7 +44,8 @@ export class CreateProductDto {
 
   @ApiPropertyOptional({
     example: 'c4d0ec42-8fbb-42ff-a234-7e2dfc49a987',
-    description: 'El ID de la categoría a la que pertenece el producto (opcional).',
+    description:
+      'El ID de la categoría a la que pertenece el producto (opcional).',
   })
   @Field({ nullable: true })
   @IsOptional()
@@ -51,7 +54,8 @@ export class CreateProductDto {
 
   @ApiPropertyOptional({
     type: [ImageDto],
-    description: 'Un array de URLs de imágenes que representan el producto (opcional).',
+    description:
+      'Un array de URLs de imágenes que representan el producto (opcional).',
     example: [
       { url: 'https://example.com/pupusa-queso.jpg' },
       { url: 'https://example.com/pupusa-frijol.jpg' },
