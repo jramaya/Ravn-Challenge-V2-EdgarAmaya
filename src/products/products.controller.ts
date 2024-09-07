@@ -18,16 +18,17 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth';
 import { Product } from './model/product.model';
+import { JwtGuard } from '../auth/guards/jwt.guard';
+import { Public } from '../common/decorators/is-public.decorator';
 
 @ApiTags('Products')
+@UseGuards(JwtGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Post()
   @ApiCreatedResponse({ description: 'Product created', type: Product })
   async createProduct(
@@ -37,7 +38,7 @@ export class ProductsController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @Public()
   @Get(':id')
   @ApiOkResponse({ description: 'Product details', type: Product })
   @ApiNotFoundResponse({ description: 'Product not found' })
@@ -46,7 +47,7 @@ export class ProductsController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @Public()
   @Get()
   @ApiOkResponse({ description: 'List of products', type: [Product] })
   async listProducts(): Promise<any[]> {
@@ -54,7 +55,6 @@ export class ProductsController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   @ApiOkResponse({ description: 'Product updated', type: Product })
   @ApiNotFoundResponse({ description: 'Product not found' })
@@ -66,7 +66,6 @@ export class ProductsController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @ApiOkResponse({ description: 'Product deleted', type: Product })
   @ApiNotFoundResponse({ description: 'Product not found' })
@@ -75,7 +74,6 @@ export class ProductsController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Patch(':id/disable')
   @ApiOkResponse({ description: 'Product disabled', type: Product })
   @ApiNotFoundResponse({ description: 'Product not found' })

@@ -9,19 +9,24 @@ import {
   HttpCode,
   HttpStatus,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category';
 import { UpdateCategoryDto } from './dto/update-category';
 import { CategoryResponseDto } from './dto/category-response';
+import { OnlyManager } from '../common/decorators/only-manager.decorator';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 
 @ApiTags('categories')
+@UseGuards(JwtGuard)
 @Controller('categories')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
+  @OnlyManager()
   @ApiOperation({ summary: 'Create a new category' })
   @ApiResponse({ status: 201, description: 'Category created successfully' })
   @ApiResponse({ status: 400, description: 'Bad request' })
@@ -59,6 +64,7 @@ export class CategoryController {
   }
 
   @Patch(':id')
+  @OnlyManager()
   @ApiOperation({ summary: 'Update a category by id' })
   @ApiResponse({ status: 200, description: 'Category updated successfully' })
   @ApiResponse({ status: 404, description: 'Category not found' })
@@ -71,6 +77,7 @@ export class CategoryController {
   }
 
   @Delete(':id')
+  @OnlyManager()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete a category by id' })
   @ApiResponse({ status: 204, description: 'Category deleted successfully' })

@@ -34,6 +34,6 @@ import { AuthController } from './auth.controller';
     GqlAuthGuard,
     PasswordService,
   ],
-  exports: [GqlAuthGuard],
+  exports: [GqlAuthGuard, JwtModule],
 })
 export class AuthModule {}

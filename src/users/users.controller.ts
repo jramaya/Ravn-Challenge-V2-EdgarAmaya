@@ -13,15 +13,17 @@ import {
 } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { User } from './models/user.model';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth';
+import { OnlyManager } from '../common/decorators/only-manager.decorator';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 
 @ApiTags('Users')
+@UseGuards(JwtGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @OnlyManager()
   @Get()
   @ApiOkResponse({ description: 'List all users', type: [User] })
   async getUsers(): Promise<User[]> {
@@ -29,7 +31,7 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @OnlyManager()
   @Get(':id')
   @ApiOkResponse({ description: 'User information', type: User })
   @ApiNotFoundResponse({ description: 'User not found' })
