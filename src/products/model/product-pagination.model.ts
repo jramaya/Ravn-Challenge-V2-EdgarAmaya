@@ -1,5 +1,5 @@
-import { Field, ObjectType } from "@nestjs/graphql";
-import { Product } from "./product.model";
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Product } from './product.model';
 import { ApiProperty } from '@nestjs/swagger';
 
 @ObjectType()
