@@ -24,8 +24,8 @@ Table Product {
   name String [not null]
   description String
   price Float [not null]
-  category Category [not null]
-  categoryId String [not null]
+  category Category
+  categoryId String
   stock Int [not null]
   images Image [not null]
   isDisabled Boolean [not null, default: false]
