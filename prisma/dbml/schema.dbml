@@ -30,8 +30,8 @@ Table Product {
   images Image [not null]
   isDisabled Boolean [not null, default: false]
   likedBy User [not null]
-  createdBy User [not null]
-  createdById String [not null]
+  createdBy User
+  createdById String
   Order Order [not null]
   Cart Cart [not null]
 }

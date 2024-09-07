@@ -45,8 +45,8 @@ model Product {
   images      Image[]
   isDisabled  Boolean @default(false)
   likedBy     User[] @relation("LikedProducts")
-  createdBy   User @relation(fields: [createdById], references: [id],  name: "ProductsCreatedByUser")
-  createdById String
+  createdBy   User? @relation(fields: [createdById], references: [id],  name: "ProductsCreatedByUser")
+  createdById String?
   Order Order[] @relation("ProductOrders")
   Cart Cart[] @relation("ProductCarts")
 }
