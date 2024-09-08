@@ -102,6 +102,38 @@ export class ProductsService {
     };
   }
 
+  async searchProductsByCategory(
+    categoryId: string,
+    page: number,
+    limit: number,
+  ): Promise<ProductPagination> {
+    const offset = (page - 1) * limit;
+
+    const products = await this.prisma.product.findMany({
+      where: {
+        isDisabled: false,
+        categoryId,
+      },
+      include: { category: true, images: true },
+      skip: offset,
+      take: parseInt(limit.toString()),
+    });
+
+    const totalCount = await this.prisma.product.count({
+      where: {
+        isDisabled: false,
+        categoryId,
+      },
+    });
+
+    return {
+      products,
+      totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+    };
+  }
+
   async getProductDetails(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
