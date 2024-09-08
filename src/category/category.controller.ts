@@ -11,15 +11,22 @@ import {
   NotFoundException,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category';
 import { UpdateCategoryDto } from './dto/update-category';
 import { CategoryResponseDto } from './dto/category-response';
 import { OnlyManager } from '../common/decorators/only-manager.decorator';
 import { JwtGuard } from '../auth/guards/jwt.guard';
+import { Public } from '../common/decorators/is-public.decorator';
 
 @ApiTags('categories')
+@ApiBearerAuth()
 @UseGuards(JwtGuard)
 @Controller('categories')
 export class CategoryController {
@@ -38,6 +45,7 @@ export class CategoryController {
   }
 
   @Get()
+  @Public()
   @ApiOperation({ summary: 'Get all categories' })
   @ApiResponse({
     status: 200,
@@ -52,6 +60,7 @@ export class CategoryController {
   }
 
   @Get(':id')
+  @Public()
   @ApiOperation({ summary: 'Get a category by id' })
   @ApiResponse({ status: 200, description: 'Category retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Category not found' })
