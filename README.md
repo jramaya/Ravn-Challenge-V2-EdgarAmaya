@@ -152,6 +152,8 @@ Welcome to Tipicos Delivery.
   -->
 - **Testing**
   - Unit tests with Jest (aiming for 80% coverage)
+- **Linting**
+  - Use `npm run lint`
 
 ## Next Steps
 
