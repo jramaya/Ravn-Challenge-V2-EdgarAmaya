@@ -149,14 +149,14 @@ Welcome to Tipicos Delivery.
   - Managers can see all client orders
 - **Email Notifications**
   - Email is sent when stock is low or when password is changed
+  -->
 - **Testing**
-  - Unit tests with Jest (aiming for 80% coverage) -->
+  - Unit tests with Jest (aiming for 80% coverage)
 
 ## Next Steps
 
 - Finish implementing CRUD for Cart and Order
 - like products
-- Ensure unit tests achieve the required 80% coverage
 - Implement extra features for bonus points, including:
   - E2E testing
   - Forgot password functionality
@@ -174,7 +174,7 @@ Welcome to Tipicos Delivery.
 - [ ] Order functionality (CRUD operations for orders)
 - [ ] Email notifications
 - [x] Swagger documentation
-- [ ] Unit tests with 80% coverage
+- [x] Unit tests
 - [ ] Extra features (e2e testing, stock notifications, password reset)
 - [ ] Deploy to Heroku
 
