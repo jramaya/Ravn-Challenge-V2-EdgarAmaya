@@ -28,7 +28,7 @@ Welcome to Tipicos Delivery.
    #### TIP: Run with a single command
 
    ```bash
-   docker compose -f docker-compose.yml up
+   cp .env.example .env; docker compose -f docker-compose.yml up
    ```
 
 2. **Install dependencies**
