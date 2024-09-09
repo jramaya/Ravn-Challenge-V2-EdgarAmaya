@@ -25,6 +25,12 @@ Welcome to Tipicos Delivery.
    cd Ravn-Challenge-V2-EdgarAmaya
    ```
 
+   #### TIP: Run with a single command
+
+   ```bash
+   docker compose -f docker-compose.yml up
+   ```
+
 2. **Install dependencies**
 
    Using npm:
