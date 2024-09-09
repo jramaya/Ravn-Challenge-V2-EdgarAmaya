@@ -2,17 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from './products.controller';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { mockJwtService } from '../__mocks__/jwt.service.mock';
 import { PrismaService } from 'nestjs-prisma';
-import { mockPrismaService } from '../__mocks__/prisma.service.mock';
 import { PasswordService } from '../auth/password.service';
-import { mockPasswordService } from '../__mocks__/password.service.mock';
 import { JwtGuard } from '../auth/guards/jwt.guard';
-import { mockJwtGuard } from '../__mocks__/jwt.guard.mock';
 import { ProductsService } from './products.service';
+import { CreateProductDto } from './dto/create-product.dto';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
+  let service: ProductsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,26 +20,64 @@ describe('ProductsController', () => {
         Reflector,
         {
           provide: JwtService,
-          useValue: mockJwtService,
+          useValue: {},
         },
         {
           provide: PrismaService,
-          useValue: mockPrismaService,
+          useValue: {},
         },
         {
           provide: PasswordService,
-          useValue: mockPasswordService,
+          useValue: {},
         },
       ],
     })
       .overrideGuard(JwtGuard)
-      .useValue(mockJwtGuard)
+      .useValue({})
       .compile();
 
     controller = module.get<ProductsController>(ProductsController);
+    service = module.get<ProductsService>(ProductsService);
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('createProduct', () => {
+    it('should call ProductsService.createProduct with correct data', async () => {
+      const createProductDto: CreateProductDto = {
+        name: 'Pupusa de Queso',
+        description:
+          'Un delicioso plato salvadoreño hecho de tortilla de maíz rellena de queso.',
+        price: 1.5,
+        stock: 50,
+        images: [{ url: 'https://example.com/pupusa-queso.jpg' }],
+      };
+
+      const createdProduct = {
+        id: '123',
+        name: 'Pupusa de Queso',
+        description:
+          'Un delicioso plato salvadoreño hecho de tortilla de maíz rellena de queso.',
+        price: 1.5,
+        stock: 50,
+        categoryId: 'c4d0ec42-8fbb-42ff-a234-7e2dfc49a987',
+        images: [{ url: 'https://example.com/pupusa-queso.jpg' }],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isDisabled: false,
+        createdById: '123',
+      };
+
+      jest
+        .spyOn(service, 'createProduct')
+        .mockImplementation(async () => createdProduct);
+
+      const result = await controller.createProduct(createProductDto);
+
+      expect(service.createProduct).toHaveBeenCalledWith(createProductDto);
+      expect(result).toEqual(createdProduct);
+    });
   });
 });
